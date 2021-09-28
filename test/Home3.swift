@@ -23,9 +23,18 @@ struct Home3:View {
     @State private var isShow:Bool = true
     @State private var isNetwork:Bool = false
     
+    @ObservedObject var td = TestData()
+    
     var body: some View {
         
         VStack {
+            ForEach(td.data,id:\.self){ d in
+                Text(d)
+            }
+            
+            Button("点击") {
+                td.data.append("ok")
+            }
             if isNetwork {
                 List(contacts) { contact in
                     HStack {
@@ -83,6 +92,7 @@ struct Home3:View {
                 }
             }.padding()
         }.onAppear {
+            print("网络请求---")
          
             Request.get(url: "https://httpbin.org/get") { data in
                 let decoder = JSONDecoder()
@@ -96,5 +106,15 @@ struct Home3:View {
             }
         }.onDisappear {
         }
+    }
+}
+
+//Note 这个WindowGroup的onChange方法率先执行
+
+class TestData:ObservableObject{
+    @Published var data:[String]
+    init() {
+        data = ["a","b","c"]
+        print("TestData初始化一次")
     }
 }

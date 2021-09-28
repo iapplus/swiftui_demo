@@ -28,4 +28,16 @@ class Request {
             }
         }.resume()
     }
+    
+    //异步函数的使用
+    func listPhotos(inGallery name: String) async -> String {
+        let result = "哈哈"
+        print("执行了")
+        return result
+    }
+    
+    func test() async{
+        let name = await listPhotos(inGallery: "okokok")
+        print("执行了\(name)")
+    }
 }

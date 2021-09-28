@@ -50,6 +50,22 @@ struct Home2:View {
             Spacer(minLength: 100)
             Button(ip) {
                 print("网络请求")
+                
+                let json = """
+                {
+                    "name": "Durian"
+                }
+                """.data(using: .utf8)!
+                
+                
+                
+                if let decodedResponse = try? JSONDecoder().decode(Person.self, from: json){
+                    print(decodedResponse.name)
+                }
+                Task{
+                    let rrr = Request()
+                    await rrr.test()
+                }
                 Request.get(url: "https://httpbin.org/get") { data in
                     let decoder = JSONDecoder()
                     
@@ -104,4 +120,8 @@ struct Home2:View {
             
         })
     }
+}
+
+struct Person:Codable{
+    let name: String
 }
